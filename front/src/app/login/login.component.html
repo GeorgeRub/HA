@@ -1,0 +1,16 @@
+<div class="container">
+    <form [formGroup]="loginForm" class="center">
+        <div>
+            <label for="email" class="form-label">Email</label>
+            <input type="text" id="email" class="form-control" placeholder="email" formControlName="email"/>
+        </div>
+        <div>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="password" formControlName="password"/>
+        </div>
+        <div>
+            <button class="btn btn-light" (click)="loginButton()">Click</button>
+            <button class="btn btn-light" type="reset">reset</button>
+        </div>
+    </form>
+</div>
