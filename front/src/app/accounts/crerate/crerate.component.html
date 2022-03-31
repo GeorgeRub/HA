@@ -1,1 +1,33 @@
-<p>crerate works!</p>
+<form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()">
+    <div>
+        <label for="name" class="form-label">Название акаунта</label>
+        <input id="name"
+               type="text"
+               class="form-control"
+               name="name"
+               [(ngModel)]="form.name"/>
+    </div>
+    <div>
+        <label for="currency" class="form-label">Валюта</label>
+        <select
+                name="currency"
+                id="currency"
+                class="form-control"
+                [(ngModel)]="form.currency">
+            <option *ngFor="let currency of currencyList" [value]="currency">{{ currency }}</option>
+        </select>
+    </div>
+    <div>
+        <label for="balance" class="form-label">Стартовый баланс</label>
+        <input id="balance"
+               type="number"
+               class="form-control"
+               name="balance"
+               [(ngModel)]="form.balance"/>
+    </div>
+    <div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block">Sign Up</button>
+        </div>
+    </div>
+</form>

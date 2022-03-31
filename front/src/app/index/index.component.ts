@@ -3,7 +3,6 @@ import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../app.component";
 
-
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',

@@ -53,7 +53,9 @@ public class AccountApi {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest, Principal principal) {
+        System.out.println("create");
         try {
             User user = userService.getByName(principal.getName());
             if (accountService.exist(user, accountRequest.getName())) {
