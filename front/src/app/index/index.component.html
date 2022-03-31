@@ -1,13 +1,2 @@
-<div class="container">
-    <google-chart
-            [data]="lineChart"
-    >
-    </google-chart>
-
-    <google-charts-dashboard [data]="dashboard"></google-charts-dashboard>
-
-    <google-charts-control [data]="slider"></google-charts-control>
-    <google-chart [data]="dashboardPieChart"></google-chart>
-    <google-charts-control [data]="categoryPicker"></google-charts-control>
-    <google-chart [data]="dashboardTable"></google-chart>
-</div>
+<div *ngIf="appComponent.isLoggedIn">{{appComponent.currentUser.username}}</div>
+<h1>Index</h1>

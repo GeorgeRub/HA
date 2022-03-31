@@ -10,8 +10,19 @@ div .center {
   margin: auto;
   width: 50%;
   padding-top: 10px;
-  label{
+
+  label {
     padding: 10px;
   }
+
   vertical-align: middle;
+}
+
+.card-body {
+  .add {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: solid 1px lightgrey;
+  }
 }
