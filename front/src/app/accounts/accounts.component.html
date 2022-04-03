@@ -1,11 +1,40 @@
-<div class="row" style="padding: 10px">
+<!--<div class="row" style="padding: 10px">-->
+
+<div *ngIf="accounts.length > 0">
+    <div class="row" style="padding: 10px">
+        <div *ngFor="let account of accounts" class="col-3">
+            <div class="card" (click)="openAccount(account.ac_id)">
+                <div class="card-header">
+                    <h4 class="center">{{account.accountName}}</h4>
+                </div>
+                <div class="card-body ">
+                    <h3 class="center">{{account.currency.name}} {{account.balance}}</h3>
+                </div>
+                <div class="card-footer">
+                   <h4 class="center">{{account.dateCreated | date:'dd.MM.yyyy'}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="center">Новый счет</h4>
+                </div>
+                <div class="card-body center">
+                    <button class="btn btn-light center add" routerLink="create">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="accounts.length == 0">
     <div class="col-3">
         <div class="card">
             <div class="card-header">
                 <h4 class="center">Новый счет</h4>
             </div>
             <div class="card-body center">
-                <button class="btn btn-light center add" routerLink="create" >Добавить</button>
+                <button class="btn btn-light center add" routerLink="create">Добавить</button>
             </div>
         </div>
     </div>

@@ -14,6 +14,9 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AccountHistoryService accountHistoryService;
+
     public List<Account> findAllByUser(User user) {
         return accountRepository.findByUser_Id(user.getId());
     }
@@ -24,5 +27,9 @@ public class AccountService {
 
     public Account save(Account account) {
         return accountRepository.save(account);
+    }
+
+    public Account findByAc_idAndUser_Id(String ac_id, User u_id) {
+        return accountRepository.findByAcIdAndUserId(ac_id, u_id);
     }
 }

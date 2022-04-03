@@ -7,6 +7,8 @@ import com.ha.back.repositories.account.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CurrencyService {
     @Autowired
@@ -18,5 +20,9 @@ public class CurrencyService {
         } catch (Exception e) {
             throw new NotFoundCurrency("Not found currency by name " + currency + "!");
         }
+    }
+
+    public List<Currency> findAll() {
+        return currencyRepository.findAll();
     }
 }

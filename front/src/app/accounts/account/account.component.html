@@ -1,1 +1,53 @@
-<p>account works! {{id}}</p>
+<div class="row">
+    <div class="col-12">
+        <h3 class="center">{{account.accountName}}</h3>
+    </div>
+    <div class="col-12"><h3 class="center">Баланс {{account.balance}} {{account.currency.name}}</h3></div>
+    <div class="col-12">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Платеж</button>
+    </div>
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Место</th>
+                <th>Сумма</th>
+                <th>Остаток</th>
+                <th>Дата</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ah of accountHistory">
+                <td>{{ah.reason.name}}</td>
+                <td>{{ah.value}}</td>
+                <td>{{ah.balance}}</td>
+                <td>{{ah.createDate | date:'dd.MM.yyyy'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade modal-dialog modal-dialog-centered "
+     id="newPaymentModal"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Новый платеж</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

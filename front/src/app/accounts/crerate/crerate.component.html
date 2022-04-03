@@ -14,7 +14,7 @@
                 id="currency"
                 class="form-control"
                 [(ngModel)]="form.currency">
-            <option *ngFor="let currency of currencyList" [value]="currency">{{ currency }}</option>
+            <option *ngFor="let currency of currencyList" [value]="currency.name">{{ currency.name }}</option>
         </select>
     </div>
     <div>
