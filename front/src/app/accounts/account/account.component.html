@@ -4,7 +4,7 @@
     </div>
     <div class="col-12"><h3 class="center">Баланс {{account.balance}} {{account.currency.name}}</h3></div>
     <div class="col-12 d-inline">
-        <button class="btn btn-success d-inline button-margin" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Платеж</button>
+        <button class="btn btn-success d-inline button-margin" mat-button (click)="openSpendMoneyDialog()">Платеж</button>
         <button class="btn btn-success d-inline button-margin">Снятие налички</button>
         <button class="btn btn-success d-inline button-margin">Поступление</button>
     </div>
@@ -27,37 +27,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-</div>
-
-<div class="modal fade modal-dialog modal-dialog-centered "
-     id="newPaymentModal"
-     data-bs-backdrop="static"
-     data-bs-keyboard="false"
-     tabindex="-1"
-     aria-labelledby="staticBackdropLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Новый платеж</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-12 d-inline">
-                            <label class="form-label d-inline" for="takeMoneyDate">Дата</label>
-                            <input type="text" class="form-control d-inline"  id="takeMoneyDate" placeholder="dd.MM.yyyy"/>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-success">Сохранить</button>
-            </div>
-        </div>
     </div>
 </div>

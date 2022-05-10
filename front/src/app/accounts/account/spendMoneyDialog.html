@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Install Angular</h2>
+<mat-dialog-content class="mat-typography">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Дата платежа</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="spendMoney.date">
+<!--            <mat-hint>dd.MM.YYYY</mat-hint>-->
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div>
+        <label for="spendName" >Name</label>
+        <input id="spendName" type="text" [(ngModel)]="spendMoney.name" />
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close="false" class="btn btn-warning">Отмена</button>
+    <button mat-button [mat-dialog-close]="spendMoney" cdkFocusInitial class="btn btn-success">Сохранить</button>
+</mat-dialog-actions>

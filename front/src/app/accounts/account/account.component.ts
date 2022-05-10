@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {AccountService} from "../../_services/account.service";
+import {MatDialog} from "@angular/material/dialog";
+import {SpendMoneyDialog} from "./SpendMoneyDialog";
+import {SpendMoney} from "./SpendMoney";
+
 
 @Component({
     selector: 'app-account',
@@ -11,10 +15,12 @@ export class AccountComponent implements OnInit {
 
     id: string | null = null
 
+    spendMoney: SpendMoney = new SpendMoney()
+
     account: any = new Account()
     accountHistory: AccountHistory[] = []
 
-    constructor(private route: ActivatedRoute, private accountService: AccountService) {
+    constructor(private route: ActivatedRoute, private accountService: AccountService, public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -44,7 +50,17 @@ export class AccountComponent implements OnInit {
             )
     }
 
+    openSpendMoneyDialog() {
+        const spendMoneyDialog = this.dialog.open(SpendMoneyDialog, {data: {spendMoney: this.spendMoney}})
+        spendMoneyDialog.afterClosed().subscribe(result => {
+            console.log('Dialog result', result)
+            this.spendMoney = result
+            console.log('date', this.spendMoney)
+        })
+    }
+
 }
+
 
 class Account {
     ac_id: string = ''
@@ -69,3 +85,4 @@ class AccountHistory {
 class Reason {
     name: string = ''
 }
+

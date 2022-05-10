@@ -18,6 +18,7 @@ import com.ha.back.service.account.AccountHistoryService;
 import com.ha.back.service.account.AccountService;
 import com.ha.back.service.account.currency.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -50,52 +51,45 @@ public class AccountApi {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> accountList(Principal principal) {
-        System.out.println("all accounts");
-        try {
+    public ResponseEntity<?> accountList(Principal principal)throws NotFountAnyUser {
+//        try {
             User user = userService.getByName(principal.getName());
             return ResponseEntity.ok(accountService.findAllByUser(user));
-        } catch (NotFountAnyUser e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse(e.getLocalizedMessage()));
-        }
+//        } catch (NotFountAnyUser e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.NOT_FOUND)
+//                    .body(new MessageResponse(e.getLocalizedMessage()));
+//        }
     }
 
     @GetMapping("/history/id/{id}/startDate/{startDate}/endDate/{endDate}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> historyByDate(@PathVariable String id, @PathVariable Date endDate, @PathVariable Date startDate) {
+    public ResponseEntity<?> historyByDate(@PathVariable String id, @PathVariable Date endDate, @PathVariable Date startDate)throws NotFountAnyUser {
         List<AccountHistory> accountList = accountHistoryService.findByIdAndBetweenDates(id, startDate, endDate);
         if (accountList != null && !accountList.isEmpty()) {
             List<AccountHistoryByIdAndDateResponse> history = new ArrayList<>();
             accountList.forEach(accountHistory -> history.add(new AccountHistoryByIdAndDateResponse(accountHistory)));
             return ResponseEntity.ok(history);
         }
-        return ResponseEntity.badRequest().body(new MessageResponse("no account history"));
+        throw new NotFountAnyUser("no account history");
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("no account history"));
     }
 
     @GetMapping("/id/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getById(Principal principal, @PathVariable String id) {
-        try {
-            User user = userService.getByName(principal.getName());
-            Account account = accountService.findByAc_idAndUser_Id(id, user);
-            if (account == null) {
-                throw new NoFoundAnyAccount("We could not find any account with id " + id + " !");
-            }
-            return ResponseEntity.ok(new AccountResponse(account));
-        } catch (NotFountAnyUser | NoFoundAnyAccount e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse(e.getLocalizedMessage()));
+    public ResponseEntity<?> getById(Principal principal, @PathVariable String id) throws NotFountAnyUser, NoFoundAnyAccount {
+        User user = userService.getByName(principal.getName());
+        Account account = accountService.findByAc_idAndUser_Id(id, user);
+        if (account == null) {
+            throw new NoFoundAnyAccount("We could not find any account with id " + id + " !");
         }
+        return ResponseEntity.ok(new AccountResponse(account));
     }
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest, Principal principal) {
-        try {
+    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest, Principal principal) throws NotFountAnyUser, NotFoundCurrency {
+//        try {
             User user = userService.getByName(principal.getName());
             if (accountService.exist(user, accountRequest.getName())) {
                 return ResponseEntity
@@ -113,11 +107,11 @@ public class AccountApi {
             AccountHistory accountHistory = new AccountHistory(account, account.getBalance(), reason);
             accountHistoryService.save(accountHistory);
             return ResponseEntity.ok(account);
-        } catch (NotFountAnyUser | NotFoundCurrency e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse(e.getLocalizedMessage()));
-        }
+//        } catch (NotFountAnyUser | NotFoundCurrency e) {
+//            e.printStackTrace();
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse(e.getLocalizedMessage()));
+//        }
     }
 }
