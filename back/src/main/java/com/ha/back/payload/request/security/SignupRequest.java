@@ -1,9 +1,12 @@
 package com.ha.back.payload.request.security;
 
+import lombok.Builder;
+
 import java.util.Set;
 
 import javax.validation.constraints.*;
 
+@Builder
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)

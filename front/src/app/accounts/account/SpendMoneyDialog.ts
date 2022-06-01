@@ -16,6 +16,10 @@ export class SpendMoneyDialog {
     onNoClick(): void {
         this.dialogRef.close();
     }
+
+    saveSpendMoney(){
+        this.onNoClick()
+    }
 }
 
 export interface DialogData {

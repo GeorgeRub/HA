@@ -1,7 +1,6 @@
 package com.ha.back.payload.response.security;
 
 import java.util.List;
-import java.util.UUID;
 
 public class JwtResponse {
     private String token;
@@ -10,6 +9,9 @@ public class JwtResponse {
     private String username;
     private String email;
     private List<String> roles;
+
+    public JwtResponse() {
+    }
 
     public JwtResponse(String accessToken, String id, String username, String email, List<String> roles) {
         this.token = accessToken;
@@ -61,5 +63,17 @@ public class JwtResponse {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "token='" + token + '\'' +
+                ", type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

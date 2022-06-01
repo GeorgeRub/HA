@@ -1,7 +1,10 @@
 package com.ha.back.payload.request.security;
 
+import lombok.Builder;
+
 import javax.validation.constraints.NotBlank;
 
+@Builder
 public class LoginRequest {
     @NotBlank
     private String username;

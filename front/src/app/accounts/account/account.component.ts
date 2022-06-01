@@ -43,7 +43,6 @@ export class AccountComponent implements OnInit {
                     for (let ah of data) {
                         this.accountHistory.push(ah)
                     }
-                    console.log('accountHistory', this.accountHistory);
                 }, error => {
                     console.log(error.error.message)
                 }
@@ -51,12 +50,7 @@ export class AccountComponent implements OnInit {
     }
 
     openSpendMoneyDialog() {
-        const spendMoneyDialog = this.dialog.open(SpendMoneyDialog, {data: {spendMoney: this.spendMoney}})
-        spendMoneyDialog.afterClosed().subscribe(result => {
-            console.log('Dialog result', result)
-            this.spendMoney = result
-            console.log('date', this.spendMoney)
-        })
+       this.dialog.open(SpendMoneyDialog, {data: {spendMoney: this.spendMoney}})
     }
 
 }
