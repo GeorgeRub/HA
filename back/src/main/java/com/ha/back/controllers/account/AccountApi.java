@@ -17,8 +17,11 @@ import com.ha.back.service.account.AccountHistoryService;
 import com.ha.back.service.account.AccountService;
 import com.ha.back.service.account.currency.CurrencyService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,6 +62,8 @@ public class AccountApi {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> accountList(Principal principal) throws NotFountAnyUser {
         User user = userService.getByName(principal.getName());
+        if (user == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User not find");
         List<Account> accountList = accountService.findAllByUser(user);
         return ResponseEntity.ok(accountList);
     }

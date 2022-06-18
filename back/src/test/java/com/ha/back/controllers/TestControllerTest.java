@@ -3,37 +3,40 @@ package com.ha.back.controllers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @TestPropertySource(
-        locations = "classpath:application.properties"
+        locations = "classpath:test.application.properties"
 )
+@AutoConfigureMockMvc
 class TestControllerTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private TestRestTemplate restTemplate;
+    public MockMvc mockMvc;
 
     @Test
     @DisplayName("test get all")
-    void allAccess() throws MalformedURLException {
+    void allAccess() throws Exception {
 
-        ResponseEntity<String> response = restTemplate.getForEntity(
-                new URL("http://localhost:" + port +"/api/test/all").toString(), String.class
-        );
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/test/all"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Public Content."));
 
-        assertEquals("Public Content.", response.getBody());
+//        ResponseEntity<String> response = restTemplate.getForEntity(
+//                new URL("http://localhost:" + port +"/api/test/all").toString(), String.class
+//        );
+//
+//        assertEquals("Public Content.", response.getBody());
 
     }
 }

@@ -1,6 +1,5 @@
 package com.ha.back.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ha.back.exceptions.account.NotFoundException;
 import com.ha.back.models.user.ERole;
@@ -10,15 +9,18 @@ import com.ha.back.payload.request.security.SignupRequest;
 import com.ha.back.payload.response.MessageResponse;
 import com.ha.back.payload.response.security.JwtResponse;
 import com.ha.back.repositories.user.UserRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,12 +28,15 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:test.application.properties"
 )
+@Sql(value = {"/roles_create.sql", "/user_create.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/roles_drop.sql", "/users_drop.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class UserServiceTest {
 
     @Autowired
@@ -50,8 +55,7 @@ class UserServiceTest {
     public void createUser() throws Exception {
         Set<String> roles = new HashSet<>();
         roles.add(ERole.ROLE_USER.toString());
-        SignupRequest request = SignupRequest
-                .builder()
+        SignupRequest request = SignupRequest.buildSignup()
                 .email("george@mail.com")
                 .password("1234")
                 .username("george")
@@ -63,11 +67,11 @@ class UserServiceTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(user)
         )
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andReturn();
         String answer = mvcResult.getResponse().getContentAsString();
-        MessageResponse respM = objectMapper.readValue(answer, MessageResponse.class);
-        assertEquals("User registered successfully!", respM.getMessage());
+        MessageResponse responseMessageObject = objectMapper.readValue(answer, MessageResponse.class);
+        assertEquals("User registered successfully!", responseMessageObject.getMessage());
 
     }
 
@@ -104,7 +108,7 @@ class UserServiceTest {
         LoginRequest loginRequest = LoginRequest
                 .builder()
                 .username("george")
-                .password("1234")
+                .password("12345678")
                 .build();
         String loginRequestString = objectMapper.writer().writeValueAsString(loginRequest);
         MvcResult mvcResult = mvc.perform(
@@ -112,7 +116,7 @@ class UserServiceTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginRequestString)
         )
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andReturn();
 
         String answer = mvcResult.getResponse().getContentAsString();

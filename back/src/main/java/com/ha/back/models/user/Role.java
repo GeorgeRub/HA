@@ -1,38 +1,41 @@
 package com.ha.back.models.user;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
+import java.util.Objects;
+
 @Entity
 @Table(name = "roles")
+@ToString
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Integer id;
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
+
+    @Getter
+    @Setter
     private ERole name;
+
     public Role() {
-    }
-    public Role(ERole name) {
-        this.name = name;
-    }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public ERole getName() {
-        return name;
-    }
-    public void setName(ERole name) {
-        this.name = name;
     }
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name=" + name +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Role role = (Role) o;
+        return Objects.equals(id, role.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() + name.hashCode();
     }
 }
