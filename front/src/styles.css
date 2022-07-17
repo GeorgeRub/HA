@@ -36,4 +36,11 @@ div .center label {
   margin: 4px;
 }
 
+mat-form-field.full-size {
+  width: 100%;
+}
+mat-form-field.full-size input {
+  width: 100%;
+}
+
 /*# sourceMappingURL=styles.css.map */

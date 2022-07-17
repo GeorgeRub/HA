@@ -1,5 +1,11 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .body-color {
   background-color: rgba(162, 162, 162, 0.03);
@@ -29,6 +35,15 @@ div .center {
     border: solid 1px lightgrey;
   }
 }
-.button-margin{
+
+.button-margin {
   margin: 4px;
+}
+
+mat-form-field.full-size {
+  width: 100%;
+
+  input {
+    width: 100%;
+  }
 }

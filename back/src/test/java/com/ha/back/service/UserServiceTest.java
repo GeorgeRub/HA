@@ -57,16 +57,16 @@ class UserServiceTest {
         roles.add(ERole.ROLE_USER.toString());
         SignupRequest request = SignupRequest.buildSignup()
                 .email("george@mail.com")
-                .password("1234")
+                .password("12345678")
                 .username("george")
                 .role(roles)
                 .build();
         String user = objectMapper.writer().writeValueAsString(request);
         MvcResult mvcResult = mvc.perform(
-                post("/api/auth/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user)
-        )
+                        post("/api/auth/signup")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(user)
+                )
                 .andDo(print())
                 .andReturn();
         String answer = mvcResult.getResponse().getContentAsString();
@@ -105,6 +105,9 @@ class UserServiceTest {
     @Test
     @DisplayName("sign in test")
     void signInTest() throws Exception {
+
+//        LoginRequest loginRequest = new LoginRequest("george", "12345678");
+
         LoginRequest loginRequest = LoginRequest
                 .builder()
                 .username("george")
@@ -112,10 +115,10 @@ class UserServiceTest {
                 .build();
         String loginRequestString = objectMapper.writer().writeValueAsString(loginRequest);
         MvcResult mvcResult = mvc.perform(
-                post("/api/auth/signin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginRequestString)
-        )
+                        post("/api/auth/signin")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(loginRequestString)
+                )
                 .andDo(print())
                 .andReturn();
 

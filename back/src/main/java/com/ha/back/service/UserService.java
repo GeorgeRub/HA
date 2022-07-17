@@ -18,7 +18,7 @@ public class UserService {
 
     public User getByName(String name) throws NotFoundException {
         Optional<User> user = userRepository.findByUsername(name);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new NotFoundException("We could not find any user with name " + name);
         }
         return user.get();

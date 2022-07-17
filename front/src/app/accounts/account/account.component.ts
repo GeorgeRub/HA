@@ -4,6 +4,7 @@ import {AccountService} from "../../_services/account.service";
 import {MatDialog} from "@angular/material/dialog";
 import {SpendMoneyDialog} from "./SpendMoneyDialog";
 import {SpendMoney} from "./SpendMoney";
+import {SpendMoneyAdroadDialog} from "./SpendMoneyAbroadDialog";
 
 
 @Component({
@@ -20,13 +21,17 @@ export class AccountComponent implements OnInit {
     account: any = new Account()
     accountHistory: AccountHistory[] = []
 
-    constructor(private route: ActivatedRoute, private accountService: AccountService, public dialog: MatDialog) {
+    constructor(private route: ActivatedRoute
+                , private accountService: AccountService
+                , public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
         this.id = this.route.snapshot.paramMap.get('id')
-        console.log('id ', this.id)
+        // console.log('id ', this.id)
         this.accountService.getById(this.id).subscribe(data => {
+            console.log('data')
+            console.log(data)
             this.account = data
         }, error => {
             console.log(error)
@@ -38,7 +43,7 @@ export class AccountComponent implements OnInit {
         if (this.id != null)
             this.accountService.getHistoryByIdAndBetweenDates(this.id, startDate, endDate).subscribe(
                 data => {
-                    console.log(data)
+                    // console.log(data)
                     // @ts-ignore
                     for (let ah of data) {
                         this.accountHistory.push(ah)
@@ -50,8 +55,14 @@ export class AccountComponent implements OnInit {
     }
 
     openSpendMoneyDialog() {
-       this.dialog.open(SpendMoneyDialog, {data: {spendMoney: this.spendMoney}})
+        this.dialog.open(SpendMoneyDialog, {data: {spendMoney: this.spendMoney}})
     }
+
+
+    openSpendMoneyAbroadDialog() {
+        this.dialog.open(SpendMoneyAdroadDialog, {data: {spendMoney: this.spendMoney}})
+    }
+
 
 }
 
@@ -79,4 +90,3 @@ class AccountHistory {
 class Reason {
     name: string = ''
 }
-

@@ -1,17 +1,15 @@
-<!--<div class="row" style="padding: 10px">-->
-
 <div *ngIf="accounts.length > 0">
     <div class="row" style="padding: 10px">
         <div *ngFor="let account of accounts" class="col-3">
-            <div class="card" (click)="openAccount(account.ac_id)">
+            <div class="card" (dblclick)="openAccount(account.ac_id)">
                 <div class="card-header">
                     <h4 class="center">{{account.accountName}}</h4>
                 </div>
                 <div class="card-body ">
-                    <h3 class="center">{{account.currency.name}} {{account.balance}}</h3>
+                    <h3 class="center" style="font-weight: bold">{{account.balance | currency:account.currency.name:'code':'.2'}}</h3>
                 </div>
                 <div class="card-footer">
-                   <h4 class="center">{{account.dateCreated | date:'dd.MM.yyyy'}}</h4>
+                   <h4 class="center" style="font-weight: bold">{{account.dateCreated | date:'longDate'}}</h4>
                 </div>
             </div>
         </div>

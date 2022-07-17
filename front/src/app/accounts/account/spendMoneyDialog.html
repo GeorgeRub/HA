@@ -1,21 +1,82 @@
-<h2 mat-dialog-title>Install Angular</h2>
+<!--<form class="example-form">-->
+<h2 mat-dialog-title>Добавить платёж</h2>
 <mat-dialog-content class="mat-typography">
     <div>
-        <mat-form-field appearance="fill">
-            <mat-label>Дата платежа</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="spendMoney.date">
+        <mat-error *ngIf="isDateSet">
+            Date is <strong>required</strong>
+        </mat-error>
+        <mat-form-field appearance="fill" style="width: 100%" class="full-size">
+            <mat-label>Payment date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="spendMoney.date" required="required">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     </div>
     <div>
-        <label for="spendName">Name</label>
-        <input id="spendName" type="text" [(ngModel)]="spendMoney.name"/>
+        <mat-error *ngIf="isNameSet">
+            Назначение платежа is <strong>required</strong>
+        </mat-error>
+        <mat-form-field class="full-size" appearance="fill">
+            <mat-label>Назначение платежа</mat-label>
+            <input matInput [(ngModel)]="spendMoney.name" type="text" required="required">
+        </mat-form-field>
     </div>
+    <div>
+        <section class="example-section">
+            <mat-checkbox class="example-margin" [(ngModel)]="spendMoney.differentCurrency">Счет в другой валюте
+            </mat-checkbox>
+        </section>
+    </div>
+    <div *ngIf="spendMoney.differentCurrency"
+         style="border: solid 1px grey; padding: 5px; margin-bottom: 5px; margin-top: 5px">
+        <div>
+            <mat-error *ngIf="isCurrency">
+                Currency is <strong>required</strong>
+            </mat-error>
+            <mat-form-field appearance="fill">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="spendMoney.currency">
+                    <mat-option *ngFor="let food of currencyList" [value]="food.name">
+                        {{food.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-error *ngIf="isExchangePrice">
+                Exchange price is <strong>required</strong>
+            </mat-error>
+            <mat-form-field class="full-size" appearance="fill">
+                <mat-label>Exchange price</mat-label>
+                <input matInput [(ngModel)]="spendMoney.exchangePrice" type="number" (ngModelChange)="exchangePriceIsChanged()">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-error *ngIf="isTotalPriceInCurrency">
+                Total price in currency is <strong>required</strong>
+            </mat-error>
+            <mat-form-field class="full-size" appearance="fill">
+                <mat-label>Total price in currency</mat-label>
+                <input matInput [(ngModel)]="spendMoney.totalPriceInCurrency" type="number" (ngModelChange)="exchangePriceIsChanged()">
+            </mat-form-field>
+        </div>
 
+    </div>
+    <div>
+        <mat-error *ngIf="isTotalPriceSet">
+            Total price is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="isCurrencyCalculation">
+            Calculation of total price is <strong>not correct</strong>
+        </mat-error>
+        <mat-form-field class="full-size" appearance="fill">
+            <mat-label>Total price</mat-label>
+            <input matInput [(ngModel)]="spendMoney.totalPrice" type="number" required="required" (ngModelChange)="totalPriceIsChanged()">
+        </mat-form-field>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close="false" class="btn btn-warning">Отмена</button>
-<!--    <button mat-button [mat-dialog-close]="spendMoney"   class="btn btn-success">Сохранить</button>-->
-    <button mat-button (click)="saveSpendMoney()"   class="btn btn-success">Сохранить</button>
+    <button mat-button (click)="saveSpendMoney()" class="btn btn-success">Сохранить</button>
 </mat-dialog-actions>
+<!--</form>-->

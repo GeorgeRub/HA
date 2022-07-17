@@ -21,6 +21,9 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
 import {SpendMoneyDialog} from "./accounts/account/SpendMoneyDialog";
 import {MatDialogModule} from "@angular/material/dialog";
+import {SpendMoneyAdroadDialog} from "./accounts/account/SpendMoneyAbroadDialog";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSelectModule} from "@angular/material/select";
 
 const routes: Routes = [
     {path: '', component: IndexComponent},
@@ -42,7 +45,8 @@ const routes: Routes = [
         AccountComponent,
         AccountsComponent,
         CrerateComponent,
-        SpendMoneyDialog
+        SpendMoneyDialog,
+        SpendMoneyAdroadDialog
     ],
     imports: [
         BrowserModule,
@@ -56,7 +60,9 @@ const routes: Routes = [
         MatInputModule,
         MatNativeDateModule,
         MatButtonModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCheckboxModule,
+        MatSelectModule
     ],
     providers: [],
     bootstrap: [AppComponent]

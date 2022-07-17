@@ -10,10 +10,11 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "account",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "ac_id")
-        })
+@Table(name = "account")
+//@Table(name = "account",
+//        uniqueConstraints = {
+//                @UniqueConstraint(columnNames = "ac_id")
+//        })
 public class Account {
 
     @Id

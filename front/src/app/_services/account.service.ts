@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TokenStorageService} from "./token-storage.service";
 
-const AUTH_API = 'http://localhost:8080/api/account/';
+const AUTH_API = 'http://localhost:5000/api/account/';
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +12,12 @@ export class AccountService {
     httpOptions: any = null
 
     constructor(private http: HttpClient, private token: TokenStorageService) {
-        const tok = this.token.getToken();
+        const jwtToken = this.token.getToken();
         this.httpOptions = {
             headers: new HttpHeaders({
+                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${tok}`
+                'Authorization': `Bearer ${jwtToken}`
             })
         };
     }

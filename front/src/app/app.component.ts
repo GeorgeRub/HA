@@ -18,13 +18,13 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('user app', this.token.getUser())
+        // console.log('user app', this.token.getUser())
         if (this.token.getToken()) {
-            console.log('init user')
+            // console.log('init user')
             this.isLoggedIn = true;
             this.currentUser = this.token.getUser();
         }
-        console.log(this.currentUser)
+        // console.log(this.currentUser)
     }
 
     isUser(): boolean {

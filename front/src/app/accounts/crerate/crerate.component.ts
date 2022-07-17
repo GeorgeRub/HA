@@ -22,7 +22,7 @@ export class CrerateComponent implements OnInit {
 
     ngOnInit(): void {
         this.currencyService.getAll().subscribe(data => {
-            console.log('currency list', data)
+            // console.log('currency list', data)
             // @ts-ignore
             for(let currency of data){
                 this.currencyList.push(currency)

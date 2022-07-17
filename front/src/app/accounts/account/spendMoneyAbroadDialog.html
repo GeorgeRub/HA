@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Добавить платёж в другой валюте</h2>
+<mat-dialog-content class="mat-typography">
+    <div>
+        <mat-form-field appearance="fill" style="width: 100%" class="full-size">
+            <mat-label>Дата платежа</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="spendMoney.date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field class="full-size" appearance="fill">
+            <mat-label>Назначение платежа</mat-label>
+            <input matInput [(ngModel)]="spendMoney.name" type="text">
+        </mat-form-field>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close="false" class="btn btn-warning">Отмена</button>
+    <button mat-button (click)="saveSpendMoney()"   class="btn btn-success">Сохранить</button>
+</mat-dialog-actions>

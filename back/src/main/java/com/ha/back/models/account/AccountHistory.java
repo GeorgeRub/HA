@@ -1,5 +1,6 @@
 package com.ha.back.models.account;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;

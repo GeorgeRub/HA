@@ -16,7 +16,7 @@ export class AccountsComponent implements OnInit {
 
     ngOnInit(): void {
         this.accountService.allAccounts().subscribe(data => {
-            console.log('data', data)
+            // console.log('data', data)
             this.accounts = data as Account[]
             console.log('accounts', this.accounts)
         }, error => {

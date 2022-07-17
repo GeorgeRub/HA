@@ -16,16 +16,15 @@ import com.ha.back.service.account.AccountHistoryReasonService;
 import com.ha.back.service.account.AccountHistoryService;
 import com.ha.back.service.account.AccountService;
 import com.ha.back.service.account.currency.CurrencyService;
-import org.springframework.data.domain.PageRequest;
+//import jakarta.validation.Valid;
+//import org.springframework.boot.autoconfigure.integration.IntegrationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,7 +91,12 @@ public class AccountApi {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest, Principal principal) {
+    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest, Principal principal, Errors errors) {
+
+        if(errors.hasErrors()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
+        }
+
         User user = userService.getByName(principal.getName());
         if (accountService.exist(user, accountRequest.getName())) {
             return ResponseEntity

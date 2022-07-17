@@ -1,5 +1,6 @@
 package com.ha.back.payload.request.account;
 
+
 import javax.validation.constraints.NotBlank;
 
 public class CreateAccountRequest {
