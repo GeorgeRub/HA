@@ -1,9 +1,18 @@
 package com.ha.back.models.account.currency;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "currency")
+@Data
+@Getter
+@Setter
+@ToString
 public class Currency {
 
     @Id
@@ -12,21 +21,6 @@ public class Currency {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private ECurrency name;
+    private ECurrency currencyName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ECurrency getName() {
-        return name;
-    }
-
-    public void setName(ECurrency name) {
-        this.name = name;
-    }
 }

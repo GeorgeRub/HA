@@ -14,9 +14,9 @@ public class CurrencyService {
     @Autowired
     CurrencyRepository currencyRepository;
 
-    public Currency findByName(String currency){
+    public Currency findByCurrencyName(String currency){
         try {
-            return currencyRepository.findByName(ECurrency.valueOf(currency));
+            return currencyRepository.findByCurrencyName(ECurrency.valueOf(currency));
         } catch (Exception e) {
             throw new NotFoundException("Not found currency by name " + currency + "!");
         }

@@ -2,6 +2,7 @@ import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SpendMoney} from "./SpendMoney";
 import {CurrencyService} from "../../_services/currency.service";
+import {SpendMoneyService} from "../../_services/spend.money.service";
 
 @Component({
     selector: 'spend-money-dialog',
@@ -23,7 +24,8 @@ export class SpendMoneyDialog {
 
     constructor(public dialogRef: MatDialogRef<SpendMoneyDialog>
         , @Inject(MAT_DIALOG_DATA) public data: DialogData
-        , private currencyService: CurrencyService) {
+        , private currencyService: CurrencyService
+        , private spendMoneyService: SpendMoneyService) {
     }
 
     ngOnInit(): void {
@@ -49,32 +51,23 @@ export class SpendMoneyDialog {
         this.isCurrencyCalculation = false
     }
 
+
     totalPriceIsChanged() {
         if (this.spendMoney.differentCurrency) {
             if (this.spendMoney.totalPrice === undefined) {
                 if (this.spendMoney.exchangePrice !== undefined
                     && this.spendMoney.totalPriceInCurrency !== undefined) {
-                    this.spendMoney.totalPrice = this.spendMoney.exchangePrice * this.spendMoney.totalPriceInCurrency
+                    this.spendMoney.totalPrice = multiply(Number(this.spendMoney.exchangePrice), Number(this.spendMoney.totalPriceInCurrency))
                 }
             }
         }
     }
 
-    // totalPriceInCurrencyIsChanged(){
-    //     if (this.spendMoney.totalPrice === undefined) {
-    //         if (this.spendMoney.exchangePrice !== undefined
-    //             && this.spendMoney.totalPriceInCurrency !== undefined) {
-    //             this.spendMoney.totalPrice = this.spendMoney.exchangePrice * this.spendMoney.totalPriceInCurrency
-    //         }
-    //     }
-    // }
-    exchangePriceIsChanged(){
-        // if (this.spendMoney.totalPrice === undefined) {
-            if (this.spendMoney.exchangePrice !== undefined
-                && this.spendMoney.totalPriceInCurrency !== undefined) {
-                this.spendMoney.totalPrice = Math.round(Number(this.spendMoney.exchangePrice) * Number(this.spendMoney.totalPriceInCurrency)* 1e12) / 1e12
-            }
-        // }
+    exchangePriceIsChanged() {
+        if (this.spendMoney.exchangePrice !== undefined
+            && this.spendMoney.totalPriceInCurrency !== undefined) {
+            this.spendMoney.totalPrice = multiply(Number(this.spendMoney.exchangePrice), Number(this.spendMoney.totalPriceInCurrency))
+        }
     }
 
     saveSpendMoney() {
@@ -85,7 +78,7 @@ export class SpendMoneyDialog {
             this.isDateSet = true
             isOk = false
         }
-        if (this.spendMoney.name === undefined) {
+        if (this.spendMoney.spendName === undefined) {
             this.isNameSet = true
             isOk = false
         }
@@ -109,15 +102,25 @@ export class SpendMoneyDialog {
             if (this.spendMoney.exchangePrice !== undefined
                 && this.spendMoney.totalPriceInCurrency !== undefined
                 && this.spendMoney.totalPrice !== undefined) {
-                let totalCurrency = this.spendMoney.exchangePrice * this.spendMoney.totalPriceInCurrency
+                let totalCurrency = multiply(Number(this.spendMoney.exchangePrice), Number(this.spendMoney.totalPriceInCurrency))
                 if (totalCurrency != this.spendMoney.totalPrice) {
                     this.isCurrencyCalculation = true
                     isOk = false
                 }
             }
         }
-        if (isOk)
-            this.onNoClick()
+        if (isOk) {
+            this.spendMoneyService.create(this.spendMoney).subscribe(
+                data => {
+                    console.log(data)
+                    this.onNoClick()
+                }, error => {
+                    console.log(error)
+                }
+            )
+
+        }
+
     }
 }
 
@@ -126,5 +129,9 @@ export interface DialogData {
 }
 
 class Currency {
-    name: string = ''
+    currencyName: string = ''
+}
+
+function multiply(f: number, l: number): number {
+    return Math.round(f * l * 1e12) / 1e12
 }

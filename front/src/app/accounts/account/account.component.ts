@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
                         this.accountHistory.push(ah)
                     }
                 }, error => {
-                    console.log(error.error.message)
+                    console.log(error)
                 }
             )
     }
@@ -77,7 +77,7 @@ class Account {
 }
 
 class Currency {
-    name: string = ''
+    currencyName: string = ''
 }
 
 class AccountHistory {

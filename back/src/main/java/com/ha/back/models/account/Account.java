@@ -22,7 +22,7 @@ public class Account {
     private String ac_id = UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "name", nullable = false)
+    @JoinColumn(name = "currency_name", nullable = false)
     @NotNull
     private Currency currency;
 

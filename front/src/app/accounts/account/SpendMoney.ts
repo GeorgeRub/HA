@@ -1,6 +1,6 @@
 export class SpendMoney{
     date: Date | undefined
-    name: string | undefined
+    spendName: string | undefined
     currency: string | undefined
     differentCurrency: boolean | undefined
     totalPrice: number | undefined

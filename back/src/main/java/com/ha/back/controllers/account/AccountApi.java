@@ -16,8 +16,6 @@ import com.ha.back.service.account.AccountHistoryReasonService;
 import com.ha.back.service.account.AccountHistoryService;
 import com.ha.back.service.account.AccountService;
 import com.ha.back.service.account.currency.CurrencyService;
-//import jakarta.validation.Valid;
-//import org.springframework.boot.autoconfigure.integration.IntegrationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -103,7 +101,7 @@ public class AccountApi {
                     .badRequest()
                     .body(new MessageResponse("Error: This use has account with name " + accountRequest.getName() + "!"));
         }
-        Currency currency = currencyService.findByName(accountRequest.getCurrency());
+        Currency currency = currencyService.findByCurrencyName(accountRequest.getCurrency());
         Account account = accountService.save(new Account(user, accountRequest, currency));
         AccountHistoryReason reason = historyReasonService.findByNameIgnoreCase("Создание");
         if (reason == null) {

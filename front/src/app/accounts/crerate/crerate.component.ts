@@ -48,5 +48,5 @@ export class CrerateComponent implements OnInit {
 
 class Currency{
     id: number = 0
-    name: string = ''
+    currencyName: string = ''
 }
